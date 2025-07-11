@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stopwatch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(to bottom right, #0f0f10, #08082a, #16213e);
+      font-family: 'Orbitron', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: #ffffff;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: #00ffe7;
+      text-shadow: 1px 1px 10px #00ffe7;
+    }
+
+    .stopwatch {
+      background: rgba(172, 40, 40, 0.05);
+      border: 2px solid;
+      border-image: linear-gradient(45deg, #0040ff, #6f00ff) 1;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 0 30px rgba(0, 255, 231, 0.4);
+      backdrop-filter: blur(15px);
+      text-align: center;
+      width: 380px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .display {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      color: #f8f8f8;
+      text-shadow: 0 0 10px #f8a048;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .buttons button {
+      flex: 1 1 45%;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      border: 2px solid;
+      cursor: pointer;
+      background: transparent;
+      transition: all 0.3s ease;
+    }
+
+    button.start {
+      color: #28a745;
+      border-color: #28a745;
+    }
+    button.pause {
+      color: #dc3545;
+      border-color: #dc3545;
+    }
+    button.reset {
+      color: #ffffff;
+      border-color: #ffffff;
+    }
+    button.lap {
+      color: #c300ff;
+      border-color: #e600ff;
+    }
+    button.resume {
+      color: #ffc107;
+      border-color: #ffc107;
+    }
+
+    .buttons button:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+      transform: scale(1.05);
+    }
+
+    .laps {
+      margin-top: 20px;
+      max-height: 150px;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .laps li {
+      list-style: none;
+      padding: 5px;
+      border-bottom: 1px solid #ffffff33;
+      color: #ddd;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #666;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Stopwatch</h1>
+
+  <div class="stopwatch">
+    <div class="display" id="display">00:00:00</div>
+    <div class="buttons">
+      <button class="start" onclick="start()">Start</button>
+      <button class="pause" onclick="pause()">Pause</button>
+      <button class="resume" onclick="resume()">Resume</button>
+      <button class="reset" onclick="reset()">Reset</button>
+      <button class="lap" onclick="lap()">Lap</button>
+    </div>
+    <ul class="laps" id="laps"></ul>
+  </div>
+
+  <script>
+    let [hours, minutes, seconds] = [0, 0, 0];
+    let timer = null;
+
+    function updateDisplay() {
+      let h = hours < 10 ? '0' + hours : hours;
+      let m = minutes < 10 ? '0' + minutes : minutes;
+      let s = seconds < 10 ? '0' + seconds : seconds;
+      document.getElementById('display').innerText = `${h}:${m}:${s}`;
+    }
+
+    function start() {
+      if (timer !== null) return;
+      timer = setInterval(() => {
+        seconds++;
+        if (seconds === 60) {
+          seconds = 0;
+          minutes++;
+        }
+        if (minutes === 60) {
+          minutes = 0;
+          hours++;
+        }
+        updateDisplay();
+      }, 1000);
+    }
+
+    function pause() {
+      clearInterval(timer);
+      timer = null;
+    }
+
+    function resume() {
+      if (timer === null) start();
+    }
+
+    function reset() {
+      pause();
+      [hours, minutes, seconds] = [0, 0, 0];
+      updateDisplay();
+      document.getElementById('laps').innerHTML = '';
+    }
+
+    function lap() {
+      if (hours === 0 && minutes === 0 && seconds === 0) return;
+      let time = document.getElementById('display').innerText;
+      let li = document.createElement('li');
+      li.innerText = `Lap: ${time}`;
+      document.getElementById('laps').appendChild(li);
+    }
+  </script>
+
+</body>
+</html>
