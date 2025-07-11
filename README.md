@@ -1,7 +1,7 @@
 # PRODIGY_WD_02
 
 # ⏱️ Stopwatch Web Application
-webiste link:- 
+webiste link:- https://govardhanrajulapati073.github.io/PRODIGY_WD_02/
 
 ### 🛠️ Internship Task - Prodigy Tech Info
 This project is developed as part of an internship task at **Prodigy Tech Info**. The task is to build an interactive and user-friendly **Stopwatch Web Application** using **HTML, CSS, and JavaScript**. It supports basic time tracking functions including **Start**, **Pause**, **Reset**, and **Lap recording**.
